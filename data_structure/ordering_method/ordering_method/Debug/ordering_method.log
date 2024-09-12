@@ -1,2 +1,5 @@
-﻿  ordering_method.c
-  ordering_method.vcxproj -> F:\system\新建文件夹\data_structure\ordering_method\Debug\ordering_method.exe
+﻿  Microsecond_timer.c
+  ordering_method.c
+  正在生成代码...
+  LINK : 没有找到 F:\system\computer_408\Computer408\data_structure\ordering_method\Debug\ordering_method.exe 或上一个增量链接没有生成它；正在执行完全链接
+  ordering_method.vcxproj -> F:\system\computer_408\Computer408\data_structure\ordering_method\Debug\ordering_method.exe
