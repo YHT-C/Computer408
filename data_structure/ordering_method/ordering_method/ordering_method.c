@@ -9,10 +9,11 @@ void MyPrint(int A[], int n) {
 	}
 	printf("\n");
 }
-void swap(int* x, int* y) {
-	int temp = x;
-	x = y;
-	y = temp;
+void swap(int *x, int *y) {
+	int temp;
+	temp = *x;
+	*x = *y;
+	*y = temp;
 }
 
 //直接插入排序
@@ -144,20 +145,44 @@ void SimpleSelectSort(int A[], int n) {
 	}
 }
 
-/*//基于初始堆的堆排序
-void BuildMinHeap(int A[], int len) {
-
+//将以k为根的字数调整为小根堆
+void HeadAdjust(int A[], int k, int len) {
+	A[0] = A[k];//A[0]存储子树的根节点值	?有可能A[0]是哨兵
+	//k的左右树节点(2k,2k+1)
+	for (int i = 2 * k; i < len-1; i *= 2) {
+		//查看是否有左右子节点
+		if (A[i] > A[i+1]) {
+			i++;//如果左边大于右边,使用右节点
+			//swap(&A[i], &A[i + 1]);//叶子节点交换位置 ???为什么
+		}
+		//查看当前根节点是否比子节点更小
+		if (A[0] <= A[i]) break;//根<=左或右
+		else {
+			A[k] = A[i];//将A[i]调整到父节点上
+			k = i;//修改k值，以便继续大元素坠
+		}
+	}
+	A[k] = A[0];//被筛选节点的值放入最终位置
 }
-void HeapSort(int A[], int len) {
+//建立小根堆
+void BuildMinHeap(int A[], int len) {
+	for (int i = len / 2; i > 0; i--) {
+		HeadAdjust(A, i, len);
+	}
+}
+void HeapSort(int A[], int len) {//堆排序不稳定,会存在堆顶不是最值被优先排出的问题
 	BuildMinHeap(A, len);//建立初始小根堆
 	MyPrint(A, len);
-	for (int i = len; i > 1; i--) {
-		swap(A[i], A[1]);
-		HeadAdjust(A, 1, i - 1);//堆调整
+	for (int i = len-1; i >	1; i--) {
+		if (A[i] <= A[i - 1]) {
+			swap(&A[i], &A[i - 1]);
+		}
+		//swap(&A[i-1], &A[1]);
+		HeadAdjust(A, 1, i );//堆调整,堆顶的叶子节点不进入堆排序
 		MyPrint(A, len);
 	}
 
-}*/
+}
 
 void Merge(int A[], int low, int mid, int high) {
 	//二路归并排序
@@ -202,7 +227,8 @@ int main() {
 	//ShellSort(arr, 8);
 	//BubbleSort(arr, 9);
 	//QuickSort(arr, 9, 0, 8);
-	SimpleSelectSort(arr, 9);
+	//SimpleSelectSort(arr, 9);
+	HeapSort(arr1, 10);
 
 	endtime = clock();
 	printf("Running Time：%dms\n", endtime - begintime);
